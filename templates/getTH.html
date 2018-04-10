@@ -1,0 +1,12 @@
+
+
+<p>-------------------------</p>
+
+Hit the submit button for live top and breaking news
+{% block content2 %}
+<form action="{{ url_for('getTop') }}" method="POST">
+    {{ form.submit() }}
+    {{ form.hidden_tag() }}
+</form>
+
+{% endblock %}

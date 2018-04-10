@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Searched Articles</h1>
+
+{% for a in articles %}
+    <p>{{ a }}</p>
+{% endfor %}
+
+{% endblock %}

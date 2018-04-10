@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Top Headlines</h1>
+
+{% for h in headlines %}
+    <p>{{ h }}</p>
+<!--     <p>SHOW YOURSELF</p> -->
+{% endfor %}
+{% endblock %}
+

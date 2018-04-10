@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content3 %}
+
+<form action="{{ url_for('search') }}" method="POST">
+	{{ form2.intro.label() }}<br>
+	{{ form2.intro() }}<br>
+	{{ form2.submit() }}
+
+</form>
+
+
+
+{% if form2.intro.data is not none %}
+	{% if form2.intro.data|length > 0 %}Hey there {{ form2.intro.data }}, nice to meet you ;)
+	{% endif %}
+{% else %}
+	<p></p>
+{% endif %}
+
+
+<p>-------------------------</p>
+
+{% endblock %}
+
+
+{% block content %}
+
+<form action="{{ url_for('search') }}" method="POST">
+    {{ form.keyword.label() }}{{ form.keyword() }}<br>
+    {{ form.submit() }}
+    {{ form.hidden_tag() }}
+</form>
+
+{% if form2.intro.data is not none %}
+	{% if form.keyword.data|length > 0 %}
+		{% for message in get_flashed_messages()[0:1] %}
+			{{ message }}
+		{% endfor %}
+	{% endif %}
+{% else %}
+	<p></p>
+{% endif %}
+
+{% endblock %}
+
+
+{% block content2 %}
+<p>-------------------------</p>
+
+Hit the submit button for live top and breaking news
+
+<form action="{{ url_for('getTop') }}" method="POST">
+    {{ form3.submit() }}
+    {{ form3.hidden_tag() }}
+</form>
+
+{% endblock %}
+
+
