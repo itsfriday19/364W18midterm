@@ -215,7 +215,7 @@ def search():
 
     else:
         flash("Enter a keyword longer than 1 character!")
-        
+
     # if form3.validate_on_submit():
     #     get_or_create_TopHeadlines(db.session)
     #     return redirect(url_for('top_headlines'))
@@ -228,7 +228,7 @@ def search():
 def getTop():
     form3 = TopHeadlinesForm()
     print ("TopHeadlinesForm: ", form3)
-    if form3.validate_on_submit(): # 3. is the form not validating on submit?
+    if form3.validate(): # 3. is the form not validating on submit?
         get_or_create_TopHeadlines(db.session)
         return redirect(url_for('top_headlines'))
     else:
