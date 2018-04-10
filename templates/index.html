@@ -32,7 +32,7 @@
     {{ form.hidden_tag() }}
 </form>
 
-{% if form2.intro.data is not none %}
+{% if form.keyword.data is not none %}
 	{% if form.keyword.data|length > 0 %}
 		{% for message in get_flashed_messages()[0:1] %}
 			{{ message }}
@@ -50,7 +50,7 @@
 
 Hit the submit button for live top and breaking news
 
-<form action="{{ url_for('getTop') }}" method="POST">
+<form action="{{ url_for('getTop') }}" method="GET">
     {{ form3.submit() }}
     {{ form3.hidden_tag() }}
 </form>
