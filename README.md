@@ -16,6 +16,7 @@ http://localhost:5000/articles --> searched_articles.html
 
 
 Requirements:
+
   **At least one errorhandler for a 404 error and a corresponding template.**    
   
   **Ensure that the SI364midterm.py file has all the setup (app.config values, import statements, code to run the app if that file is run, etc) necessary to run the Flask application, and the application runs correctly on http://localhost:5000 (and the other routes you set up)**    
@@ -37,10 +38,10 @@ Requirements:
    
    **At least one custom validator for a field in a WTForm.**    
    
-   **At least 2 additional model classes.** 
+   **At least 2 additional model classes.**        
    
-       Have a one:many relationship that works properly built between 2 of your models.
-  
+   Have a one:many relationship that works properly built between 2 of your models.
+   
    **Successfully save data to each table.**    
    
    **Successfully query data from each of your models (so query at least one column, or all data, from every database table you have a model for).**    
@@ -55,8 +56,8 @@ Requirements:
 
    **Project description in README**
   
-Additional Requirements for an additional 200 points (to reach 100%) -- an app with extra functionality!
+Additional Requirements for an additional 200 points (to reach 100%) -- an app with extra functionality!    
 
-    (100 points) Include an additional model class (to make at least 4 total in the application) with at least 3 columns. Save data to it AND query data from it; use the data you query in a view-function, and as a result of querying that data, something should show up in a view. (The data itself should show up, OR the result of a request made with the data should show up.)
+(100 points) Include an additional model class (to make at least 4 total in the application) with at least 3 columns. Save data to it AND query data from it; use the data you query in a view-function, and as a result of querying that data, something should show up in a view. (The data itself should show up, OR the result of a request made with the data should show up.)
 
   **(100 points) Write code in your Python file that will allow a user to submit duplicate data to a form, but will not save duplicate data (like the same user should not be able to submit the exact same tweet text for HW3).**
