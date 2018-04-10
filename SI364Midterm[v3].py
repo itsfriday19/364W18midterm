@@ -44,8 +44,6 @@ def get_or_create_TopHeadlines(db_session):
     # print (response["status"])
     # print (response["totalResults"])
     # print ("length: ",len(response))
-    # print ("IS IT WORKING??")
-    # print("YO, OVER HERE, OVER HERE MAN. This is where the NewsAPI info is supposed to be!")
     counter = 0
     for a in response:
         headline = a["title"]
@@ -60,8 +58,6 @@ def get_or_create_TopHeadlines(db_session):
         db.session.commit()
         counter += 1
         print ("has looped", counter, "\n---------------\n")
-
-    # flash("Successfully added top headlines!")
     return redirect(url_for('top_headlines'))
 
 
@@ -73,7 +69,6 @@ def get_or_create_Article(db_session, keyword):
     print ("get my search response now please", response)
 
     if h:
-        # flash("Article already exists")
         return redirect(url_for('searched_articles'))
        
     else:
@@ -87,7 +82,6 @@ def get_or_create_Article(db_session, keyword):
         db.session.add(h)
         db.session.commit()
 
-        # flash('Successfully added article!')
         return redirect(url_for('searched_articles'))
 
 
@@ -106,25 +100,25 @@ def page_not_found(e):
 class Article(db.Model):
     __tablename__ = "articles"
     id = db.Column(db.Integer,primary_key=True)
-    print ("This is now running the Article(db.Model) thing")
+    print ("This is now running the Article(db.Model)")
     name = db.Column(db.String(30), unique=True)
     author = db.Column(db.String(100))
     headline = db.Column(db.String(300))
     pubdate = db.Column(db.String(25))
     description = db.Column(db.String(500))
     URL = db.Column(db.String(500))
-    source = db.Column(db.String(100)) #, db.ForeignKey("sources.id")) # take source from here
+    source = db.Column(db.String(100)) 
 
     def __repr__(self):
         return "Keyword: {} -- Headline: {} -- Source: {} -- Author: {} -- Published on {} -- Blurb: {} -- URL: {} -- (ID: {})".format(self.name, self.headline, self.source, self.author, self.pubdate, self.description, self.URL, self.id)
 
 
 class TopHeadlines(db.Model):
-    __tablename__ = "topH" # 2. table is not populating because get_or_create_TopHeadlines isn't being called
+    __tablename__ = "topH"
     id = db.Column(db.Integer,primary_key=True)
     name = db.Column(db.String(30))
     author = db.Column(db.String(100))
-    headline = db.Column(db.String(300)) #, db.ForeignKey("sources.id")) # take headline from here, then match them in Source
+    headline = db.Column(db.String(300))
     pubdate = db.Column(db.String(25))
     description = db.Column(db.String(500))
     URL = db.Column(db.String(350))
@@ -132,29 +126,7 @@ class TopHeadlines(db.Model):
 
     def __repr__(self):
         return "Headline: {} -- Source: {} -- Author: {} -- Published on {} -- Blurb: {} -- URL: {} -- (ID: {})".format(self.headline, self.source, self.author, self.pubdate, self.description, self.URL, self.id)
-
-# class Source(db.Model): # combining the sources you searched with headlines from top headlines if the source exists there
-#     __tablename__ = "sources"
-#     id = db.Column(db.Integer, primary_key=True)
-#     source = db.relationship('Article', backref='Source')
-#     headline = db.relationship('TopHeadlines',backref='Source')
-
-
-# class Movie(db.Model):
-#     __tablename__ = "movies"
-#     id = db.Column(db.Integer,primary_key=True)
-#     name = db.Column(db.String(64))
-#     director_id = db.Column(db.Integer,db.ForeignKey("directors.id"))
-
-# class Director(db.Model):
-#     __tablename__ = "directors"
-#     id = db.Column(db.Integer, primary_key=True)
-#     full_name = db.Column(db.String(255))
-#     movies = db.relationship('Movie',backref='Director') # building the relationship -- one director, many movies
-
     
-
-
 
 ###################
 ###### FORMS ######
@@ -178,14 +150,6 @@ class TopHeadlinesForm(FlaskForm):
 
 class Icebreaker(FlaskForm):
     intro = StringField("Let's get to know each other a little bit before I start giving you articles willy nilly, I'm not that kinda gal you know. What's your name?", validators=[Required()])
-
-    # def validate_intro(self, field):
-    #     result = re.findall('[^a-zA-Z\s-]', field.data) # ^!@#$%&()+=1234567890/?<>~`\*
-    #     print(field.data)
-    #     print (result)
-    #     if len(result) != 0:
-    #         raise ValidationError('Names cannot have any numbers or special characters in them!')
-
     submit = SubmitField()
 
 
@@ -196,12 +160,10 @@ class Icebreaker(FlaskForm):
 
 @app.route('/', methods=['GET', 'POST'])
 def search():
-    form = ArticleSearchForm() # User should be able to enter name after name and each one will be saved, even if it's a duplicate! Sends data with GET
+    form = ArticleSearchForm()
     form2 = Icebreaker()
     form3 = TopHeadlinesForm()
     print ("testing before if statement in search route")
-    print ("Article Search Form: ", form)
-    print ("Icebreaker: ", form2)
     if form2.validate_on_submit() and method == "POST":
         return redirect(url_for('search'))
     if form.validate_on_submit():
@@ -215,20 +177,12 @@ def search():
 
     else:
         flash("Enter a keyword longer than 1 character!")
-
-    # if form3.validate_on_submit():
-    #     get_or_create_TopHeadlines(db.session)
-    #     return redirect(url_for('top_headlines'))
-    # else:
-    #     print ("Top headlines isn't grabbing anything")
-    #     return redirect(url_for('search'))
     return render_template('index.html',form=form, form2=form2, form3=form3)
 
 @app.route('/getTH', methods=['GET', 'POST'])
 def getTop():
     form3 = TopHeadlinesForm()
-    print ("TopHeadlinesForm: ", form3)
-    if form3.validate(): # 3. is the form not validating on submit?
+    if form3.validate():
         get_or_create_TopHeadlines(db.session)
         return redirect(url_for('top_headlines'))
     else:
@@ -248,7 +202,7 @@ def all_keywords():
 @app.route('/headlines')
 def top_headlines():
     headlines = TopHeadlines.query.all()
-    print ("Headlines: ", headlines) # 1. this is empty because its trying to find info in the table
+    print ("Headlines: ", headlines)
     return render_template('top_headlines.html', headlines=headlines)
 
 @app.route('/articles')
